@@ -89,7 +89,7 @@ class Minify
 	static public function run()
 	{
 
-		\Profiler::mark('Minify! started');
+		\Profiler::mark('jyggen\Minify::run Start');
 
 		self::loadDefaultOpts();
 		self::validateOutputDir();
@@ -113,7 +113,7 @@ class Minify
 
 		}
 
-		\Profiler::mark('Minify! finished');
+		\Profiler::mark('jyggen\Minify::run End');
 
 	}
 
