@@ -313,7 +313,7 @@ class Minify
 			$msg = 'Couldn\'t get extension of file %s.';
 			$msg = sprintf($msg, $name);
 
-			\Log::error(, 'Minify::getExt()');
+			\Log::error($msg, 'Minify::getExt()');
 			return null;
 
 		}
