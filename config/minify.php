@@ -38,7 +38,7 @@ return array(
 	'useLocalJS' => false,
 
 	// template for css code
-	'htmlCSS' => '<link rel="stylesheet" media="screen" href="%s">',
+	'htmlCSS' => '<link rel="stylesheet" href="%s">',
 
 	// template for javascript code
 	'htmlJS' => '<script src="%s"></script>',
