@@ -17,6 +17,7 @@ This repository contains a version of Minify updated to work as a FuelPHP packag
 	Minify::add('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js');
 	Minify::add('assets/js/jquery.autocomplete.js');
 	Minify::add('assets/js/general.js');
+	Minify::run();
 	
 	Minify::printLinks();
 	
