@@ -89,7 +89,7 @@ class Minify
 	static public function run()
 	{
 
-		Profiler::mark('Minify! started');
+		\Profiler::mark('Minify! started');
 
 		self::loadDefaultOpts();
 		self::validateOutputDir();
@@ -113,8 +113,8 @@ class Minify
 
 		}
 
-		Profiler::mark('Minify! finished');
-		Profiler::mark_memory(new self, 'Minify memory usage');
+		\Profiler::mark('Minify! finished');
+		\Profiler::mark_memory(new self, 'Minify memory usage');
 
 	}
 
@@ -278,7 +278,7 @@ class Minify
 			$msg = '"%s" is not a valid directory.';
 			$msg = sprintf($msg, $dir);
 
-			Log::error($msg, 'Minify::validateDir()');
+			\Log::error($msg, 'Minify::validateDir()');
 			throw new MinifyException($msg);
 
 		}
@@ -288,7 +288,7 @@ class Minify
 			$msg = '"%s" is not writable.';
 			$msg = sprintf($msg, $dir);
 
-			Log::error($msg, 'Minify::validateDir()');
+			\Log::error($msg, 'Minify::validateDir()');
 			throw new MinifyException($msg);
 
 		}
@@ -313,7 +313,7 @@ class Minify
 			$msg = 'Missing "%s" in configuration.';
 			$msg = sprintf($msg, $key);
 
-			Log::error($msg, 'Minify::validateOpt()');
+			\Log::error($msg, 'Minify::validateOpt()');
 			throw new MinifyException($msg);
 
 		} else {
@@ -469,7 +469,7 @@ class Minify
 				$msg  = 'Skipping %s due to invalid file.';
 				$msg  = sprintf($msg, $file);
 
-				Log::debug($msg, 'Minify::validateFiles()');
+				\Log::debug($msg, 'Minify::validateFiles()');
 
 			} else {
 
@@ -491,12 +491,12 @@ class Minify
 						$key['data'] = file_get_contents($cachePath);
 						$key['path'] = $cachePath;
 						$key['hash'] = hash(self::$_opt['algorithm'], $key['data']);
-						Log::debug(basename($file['path']).' will use a cached copy', 'Minify::validateFiles()');
+						\Log::debug(basename($file['path']).' will use a cached copy', 'Minify::validateFiles()');
 
 					} else {
 
 						self::$_downloadQueue[$k] = $srcPath;
-						Log::debug(basename($file['path']).' will be downloaded', 'Minify::validateFiles()');
+						\Log::debug(basename($file['path']).' will be downloaded', 'Minify::validateFiles()');
 
 					}
 
@@ -506,12 +506,12 @@ class Minify
 
 						$key['data'] = file_get_contents($file['path']);
 						$key['hash'] = hash(self::$_opt['algorithm'], $key['data']);
-						Log::debug(basename($file['path']).' will use a local copy', 'Minify::validateFiles()');
+						\Log::debug(basename($file['path']).' will use a local copy', 'Minify::validateFiles()');
 
 					} else {
 
 						unset($key);
-						Log::error(basename($file['path']).' is an invalid file', 'Minify::validateFiles()');
+						\Log::error(basename($file['path']).' is an invalid file', 'Minify::validateFiles()');
 
 					}
 
@@ -555,7 +555,7 @@ class Minify
 				$msg = 'Skipping %s due to download error (%u).';
 				$msg = sprint($msg, $file, $code);
 
-				Log::debug($msg, 'Minify::downloadFiles()');
+				\Log::debug($msg, 'Minify::downloadFiles()');
 
 			} else {
 				
@@ -622,17 +622,17 @@ class Minify
 
 					if (array_key_exists($file['path'], $hashes) === false) {
 
-						Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
 						return false;
 
 					} else if ($file['hash'] !== $hashes[$file['path']]) {
 
-						Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
 						return false;
 
 					} else {
 
-						Log::debug(basename($file['path']).'- valid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).'- valid checksum', 'Minify::validateCache()');
 						unset($hashes[$file['path']]);
 
 					}
@@ -664,7 +664,7 @@ class Minify
 
 		if (file_exists($file) === false) {
 
-			Log::debug('Cache file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
+			\Log::debug('Cache file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
 			return false;
 
 		}
@@ -675,7 +675,7 @@ class Minify
 
 			if (file_exists($file) === false) {
 
-				Log::debug('Compressed file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
+				\Log::debug('Compressed file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
 				return false;
 
 			}
@@ -688,7 +688,7 @@ class Minify
 
 			if (file_exists($file) === false) {
 
-				Log::debug('Compressed file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
+				\Log::debug('Compressed file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
 				return false;
 
 			}
@@ -745,7 +745,7 @@ class Minify
 								$msg .= ' enable local compression for javascript.';
 								$msg  = sprintf($msg, $file);
 
-								Log::error($msg, 'Minify::compressFiles()');
+								\Log::error($msg, 'Minify::compressFiles()');
 								throw new MinifyException($msg);
 
 							}
@@ -782,7 +782,7 @@ class Minify
 								$msg = 'Web Service returned %s in %s on line %u.';
 								$msg = sprintf($msg, $error, $file, $line);
 
-								Log::error($msg, 'Minify::compressFiles()');
+								\Log::error($msg, 'Minify::compressFiles()');
 								throw new MinifyException($msg);
 
 							} else if (isset($data['compiledCode']) === true) {
@@ -794,7 +794,7 @@ class Minify
 
 							} else {
 
-								Log::error('An unknown error has occured.', 'Minify::compressFiles()');
+								\Log::error('An unknown error has occured.', 'Minify::compressFiles()');
 								throw new MinifyException('An unknown error has occured.');
 
 							}//end if
