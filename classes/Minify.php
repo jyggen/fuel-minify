@@ -603,17 +603,17 @@ class Minify
 
 					if (array_key_exists($file['path'], $hashes) === false) {
 
-						\Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
 						return false;
 
 					} else if ($file['hash'] !== $hashes[$file['path']]) {
 
-						\Log::debug(basename($file['path']).' - invalid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
 						return false;
 
 					} else {
 
-						\Log::debug(basename($file['path']).'- valid checksum', 'Minify::validateCache()');
+						\Log::debug(basename($file['path']).' - OK!', 'Minify::validateCache()');
 						unset($hashes[$file['path']]);
 
 					}
