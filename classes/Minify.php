@@ -680,7 +680,7 @@ class Minify
 		$curl = new \CURLRequest;
 		$css  = new \CSSCompression();
 		
-		$css->option('readability', CSSCompression::READ_NONE);
+		$css->option('readability', \CSSCompression::READ_NONE);
 		$css->option('mode', self::$_opt['cssLevel']);
 
 		foreach (self::$_files as $file) {
