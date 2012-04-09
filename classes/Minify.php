@@ -444,7 +444,7 @@ class Minify
 
 			if (self::isAllowedExt($file['path']) === false) {
 
-				unset($key);
+				unset(self::$_files[$k]);
 
 				$file = basename($file['path']);
 				$msg  = 'Skipping %s due to invalid file.';
