@@ -334,7 +334,7 @@ class Minify
 			$msg = 'Missing "%s" in configuration.';
 			$msg = sprintf($msg, $key);
 
-			throw new Exception($msg);
+			throw new MinifyException($msg);
 
 		} else {
 
@@ -491,7 +491,7 @@ class Minify
 				$msg  = 'Skipping %s due to invalid file.';
 				$msg  = sprintf($msg, $file);
 
-				throw new Exception($msg);
+				throw new MinifyException($msg);
 
 			} else {
 
@@ -577,7 +577,7 @@ class Minify
 				$msg = 'Skipping %s due to download error (%u).';
 				$msg = sprint($msg, $file, $code);
 
-				throw new Exception($msg);
+				throw new MinifyException($msg);
 
 			} else {
 				
@@ -789,7 +789,7 @@ class Minify
 								$msg .= ' enable local compression for javascript.';
 								$msg  = sprintf($msg, $file);
 
-								throw new Exception($msg);
+								throw new MinifyException($msg);
 
 							}
 
@@ -825,7 +825,7 @@ class Minify
 								$msg = 'Web Service returned %s in %s on line %u.';
 								$msg = sprintf($msg, $error, $file, $line);
 
-								throw new Exception($msg);
+								throw new MinifyException($msg);
 
 							} else if (isset($data['compiledCode']) === true) {
 								
@@ -836,7 +836,7 @@ class Minify
 
 							} else {
 
-								throw new Exception('An unknown error has occured.');
+								throw new MinifyException('An unknown error has occured.');
 
 							}//end if
 
