@@ -1,14 +1,18 @@
 <?php
-
 /**
- * Minify Class by Jonas Stendahl
- * http://www.jyggen.com/
+ * Fuel is a fast, lightweight, community driven PHP5 framework.
+ *
+ * @package    Minify
+ * @author     Jonas Stendahl
+ * @license    MIT License
+ * @copyright  2012 Jonas Stendahl
+ * @link       http://www.jyggen.com
  *
  * CSS Compressor by Corey Hart
- * http://www.codenothing.com/
+ * http://www.codenothing.com
  *
  * Closure Compiler by Google
- * http://closure-compiler.appspot.com/
+ * http://closure-compiler.appspot.com
  */
 
 namespace jyggen;
