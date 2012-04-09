@@ -304,7 +304,19 @@ class Minify
 
 		$info = pathinfo($name);
 
-		return $info['extension'];
+		if(array_key_exists('extension', $info)) {
+
+			return $info['extension'];
+
+		} else {
+
+			$msg = 'Couldn\'t get extension of file %s.';
+			$msg = sprintf($msg, $name);
+
+			\Log::error(, 'Minify::getExt()');
+			return null;
+
+		}
 
 	}
 
