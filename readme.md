@@ -12,17 +12,17 @@ This repository contains a version of Minify updated to work as a FuelPHP packag
 
 ## Usage ##
 
-	jyggen\Minify::add('assets/css/normalize.css');
-	jyggen\Minify::add('assets/css/base.css');
-	jyggen\Minify::add('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js');
-	jyggen\Minify::add('assets/js/jquery.autocomplete.js');
-	jyggen\Minify::add('assets/js/general.js');
+	Minify::add('assets/css/normalize.css');
+	Minify::add('assets/css/base.css');
+	Minify::add('https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js');
+	Minify::add('assets/js/jquery.autocomplete.js');
+	Minify::add('assets/js/general.js');
 	
 	jyggen\Minify::printLinks();
 	
 	// You should in most cases use getLinks and assign it to your view though.
-	// $view->set('css_files', jyggen\Minify::getLinks('css'), false);
-	// $view->set('js_files', jyggen\Minify::getLinks('js'), false);
+	// $view->set('css_files', Minify::getLinks('css'), false);
+	// $view->set('js_files', Minify::getLinks('js'), false);
 
 The above code will result in output similar to this:
 
