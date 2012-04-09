@@ -233,37 +233,6 @@ class Minify
 	}
 	
 	/**
-	 * Insert a string into the debug log.
-	 *
-	 * @param	string	message to log
-	 * @param	boolean	if a EOL character should be appended
-	 * @param	integer	indent length
-	 * @return	void
-	 */
-	static protected function log($data, $eol=true, $tab=0)
-	{
-
-		$msg = '';
-
-		for ($i = 0; $i < $tab; $i++) {
-
-			$msg .= "\t";
-
-		}
-
-		$msg .= $data;
-
-		if ($eol === true) {
-
-			$msg .= PHP_EOL;
-
-		}
-
-		self::$_debugLog[] = $msg;
-
-	}
-	
-	/**
 	 * Validate that a directory exists and is writable. Will try to
 	 * create it otherwise.
 	 *
