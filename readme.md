@@ -18,7 +18,7 @@ This repository contains a version of Minify updated to work as a FuelPHP packag
 	Minify::add('assets/js/jquery.autocomplete.js');
 	Minify::add('assets/js/general.js');
 	
-	jyggen\Minify::printLinks();
+	Minify::printLinks();
 	
 	// You should in most cases use getLinks and assign it to your view though.
 	// $view->set('css_files', Minify::getLinks('css'), false);
