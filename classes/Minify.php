@@ -678,7 +678,7 @@ class Minify
 		self::$_mincode['css'] = '';
 
 		$curl = new \CURLRequest;
-		$css  = new CSSCompression();
+		$css  = new \CSSCompression();
 		
 		$css->option('readability', CSSCompression::READ_NONE);
 		$css->option('mode', self::$_opt['cssLevel']);
