@@ -114,7 +114,6 @@ class Minify
 		}
 
 		\Profiler::mark('Minify! finished');
-		\Profiler::mark_memory(false, 'Minify');
 
 	}
 
