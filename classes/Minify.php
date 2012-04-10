@@ -590,13 +590,9 @@ class Minify
 
 		}
 
-		$cache  = explode(PHP_EOL, $cache);
-		$hashes = array();
+		foreach($cache as $file) {
 
-		foreach ($cache as $line) {
-
-			list($file, $hash) = explode(' ', $line);
-			$hashes[$file]     = $hash;
+			$hashes[$file['path']] = $file['hash'];
 
 		}
 
@@ -821,15 +817,18 @@ class Minify
 	static protected function saveCache()
 	{
 
-		$cache = '';
+		$cache = array();
 
 		foreach (self::$_files as $file) {
 
-			$cache .= $file['path'].' '.$file['hash'].PHP_EOL;
+			$cache[] = array(
+					    'path' => $file['path'],
+					    'hash' => $file['hash']
+					   );
 
 		}
 
-		\Cache::set('minify', trim($cache), 1209600);
+		\Cache::set('minify', $cache, 1209600);
 
 	}
 
