@@ -448,7 +448,7 @@ class Minify
 
 					try { 
 
-						$cache       = \Cache::get('minify/'.$cachePath);
+						$cache       = \Cache::get('minify.'.$cachePath);
 						$key['data'] = $cache;
 						$key['path'] = $cachePath;
 						$key['hash'] = hash(self::$_opt['algorithm'], $cache);
@@ -527,7 +527,7 @@ class Minify
 				$k['path'] = $hash;
 				$k['hash'] = hash(self::$_opt['algorithm'], $data['content']);
 
-				\Cache::set('minify/'.$hash, $data['content'], 1209600);
+				\Cache::set('minify.'.$hash, $data['content'], 1209600);
 
 			}//end if
 
@@ -565,7 +565,7 @@ class Minify
 	static protected function validateCache()
 	{
 
-		try { $cache = \Cache::get('minify/minify'); }
+		try { $cache = \Cache::get('minify.minify'); }
 		catch (\CacheNotFoundException $e) {
 
 			return false;
@@ -614,7 +614,7 @@ class Minify
 	static protected function evaluate()
 	{
 
-		try { \Cache::get('minify/minify'); }
+		try { \Cache::get('minify.minify'); }
 		catch (\CacheNotFoundException $e) {
 
 			\Log::debug('Cache doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
@@ -674,7 +674,7 @@ class Minify
 
 			try {
 
-				self::$_mincode[$file['ext']] .= \Cache::get('minify/'.$hash);
+				self::$_mincode[$file['ext']] .= \Cache::get('minify.'.$hash);
 
 			} catch (\CacheNotFoundException $e) {
 
@@ -758,7 +758,7 @@ class Minify
 						$code = trim($css->compress($code));
 
 						self::$_mincode[$file['ext']] .= $code;
-						\Cache::set('minify/'.$hash, $code, 3600);
+						\Cache::set('minify.'.$hash, $code, 3600);
 
 					}//end if
 
@@ -807,7 +807,7 @@ class Minify
 
 		}
 
-		\Cache::set('minify/minify', $cache, null);
+		\Cache::set('minify.minify', $cache, null);
 
 	}
 
