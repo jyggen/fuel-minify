@@ -93,7 +93,6 @@ class Minify
 
 		self::loadDefaultOpts();
 		self::validateOutputDir();
-		self::validateCacheDir();
 		self::validatePublicDir();
 		self::validateFiles();
 
@@ -345,7 +344,6 @@ class Minify
 
 		$defaultOpts = array(
 						'algorithm'     => \Config::get('minify.algorithm', 'crc32b'),
-						'cacheDir'      => \Config::get('minify.cacheDir', __DIR__.'/minify/cache/'),
 						'outputDir'     => \Config::get('minify.outputDir', 'assets/'),
 						'publicDir'     => \Config::get('minify.publicDir', null),
 						'absolutePaths' => \Config::get('minify.absolutePaths', true),
@@ -407,23 +405,6 @@ class Minify
 
 		}
 
-
-	}
-
-	/**
-	 * Validate that the cache directory exists and is writable.
-	 *
-	 * @return boolean
-	 */
-	static protected function validateCacheDir()
-	{
-
-		self::validateOpt('cacheDir');
-
-		self::$_cacheDir = self::$_opt['cacheDir'];
-		$isValid         = self::validateDir(self::$_cacheDir);
-
-		return $isValid;
 
 	}
 

@@ -13,12 +13,6 @@ return array(
 	// algorithm to use for file checksums
 	'algorithm' => 'crc32b',
 
-	// name of the file to store checksums in
-	'cacheFile' => 'minify.sfv',
-
-	// folder to cache downloaded and minified code
-	'cacheDir' => APPPATH.'cache'.DS.'minify'.DS,
-
 	// folder to save compressed files
 	'outputDir' => 'assets/',
 
