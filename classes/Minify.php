@@ -690,13 +690,12 @@ class Minify
 
 			$code  = $file['data'];
 			$hash  = md5($code);
-			$cache = self::$_cacheDir.$hash;
 
-			if (file_exists($cache) === true) {
+			try {
 
-				self::$_mincode[$file['ext']] .= file_get_contents($cache);
+				self::$_mincode[$file['ext']] .= \Cache::get($hash);
 
-			} else {
+			} catch (\CacheNotFoundException $e) {
 
 				if (self::$_opt['compressCode'] === false) {
 
@@ -775,18 +774,16 @@ class Minify
 
 					} else if ($file['ext'] === 'css') {
 						
-
 						$code = trim($css->compress($code));
 
 						self::$_mincode[$file['ext']] .= $code;
-
-						file_put_contents($cache, $code);
+						\Cache::set($hash, $code, 3600);
 
 					}//end if
 
 				}//end if
 
-			}//end if
+			}//end catch
 
 		}//end foreach
 
