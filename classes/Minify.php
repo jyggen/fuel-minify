@@ -467,7 +467,7 @@ class Minify
 
 					try { 
 
-						$cache       = Cache::get($cachePath);
+						$cache       = \Cache::get($cachePath);
 						$key['data'] = $cache;
 						$key['path'] = $cachePath;
 						$key['hash'] = hash(self::$_opt['algorithm'], $cache);
