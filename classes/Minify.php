@@ -463,16 +463,17 @@ class Minify
 				if (preg_match($regexp, $file['path'], $match) !== 0) {
 
 					$srcPath   = $file['path'];
-					$cachePath = self::$_cacheDir.md5($file['path']);
+					$cachePath = md5($file['path']);
 
-					if (file_exists($cachePath) === true) {
+					try { 
 
-						$key['data'] = file_get_contents($cachePath);
+						$cache       = Cache::get($cachePath);
+						$key['data'] = $cache;
 						$key['path'] = $cachePath;
-						$key['hash'] = hash(self::$_opt['algorithm'], $key['data']);
+						$key['hash'] = hash(self::$_opt['algorithm'], $cache);
 						\Log::debug(basename($file['path']).' will use a cached copy', 'Minify::validateFiles()');
 
-					} else {
+					} catch (\CacheNotFoundException $e) {
 
 						self::$_downloadQueue[$k] = $srcPath;
 						\Log::debug(basename($file['path']).' will be downloaded', 'Minify::validateFiles()');
@@ -538,14 +539,14 @@ class Minify
 
 			} else {
 				
-				$path =  self::$_cacheDir.md5($data['info']['url']);
+				$hash =  md5($data['info']['url']);
 				$k    =& self::$_files[$key];
 
 				$k['data'] = $data['content'];
-				$k['path'] = $path;
+				$k['path'] = $hash;
 				$k['hash'] = hash(self::$_opt['algorithm'], $data['content']);
 
-				file_put_contents($path, $data['content']);
+				\Cache::set($hash, $data['content'], 1209600);
 
 			}//end if
 
@@ -828,7 +829,7 @@ class Minify
 
 		}
 
-		\Cache::set('minify', $cache, 1209600);
+		\Cache::set('minify', $cache, null);
 
 	}
 
