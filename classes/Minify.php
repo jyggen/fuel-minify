@@ -109,7 +109,7 @@ class Minify
 
 			self::compressFiles();
 			self::saveFiles();
-			self::saveCacheFile();
+			self::saveCache();
 
 		}
 
@@ -345,7 +345,6 @@ class Minify
 
 		$defaultOpts = array(
 						'algorithm'     => \Config::get('minify.algorithm', 'crc32b'),
-						'cacheFile'     => \Config::get('minify.cacheFile', 'minify.sfv'),
 						'cacheDir'      => \Config::get('minify.cacheDir', __DIR__.'/minify/cache/'),
 						'outputDir'     => \Config::get('minify.outputDir', 'assets/'),
 						'publicDir'     => \Config::get('minify.publicDir', null),
@@ -583,68 +582,64 @@ class Minify
 
 	static protected function validateCache()
 	{
-			
-			$cache = file_get_contents(self::$_outputDir.self::$_opt['cacheFile']);
 
-			if ($cache !== false) {
+		try { $cache = \Cache::get('minify'); }
+		catch (\CacheNotFoundException $e) {
 
-				$cache  = explode(PHP_EOL, $cache);
-				$hashes = array();
+			return false;
 
-				foreach ($cache as $line) {
+		}
 
-					list($file, $hash) = explode(' ', $line);
-					$hashes[$file]     = $hash;
+		$cache  = explode(PHP_EOL, $cache);
+		$hashes = array();
 
-				}
+		foreach ($cache as $line) {
 
-				foreach (self::$_files as $k => $file) {
+			list($file, $hash) = explode(' ', $line);
+			$hashes[$file]     = $hash;
 
-					if (array_key_exists($file['path'], $hashes) === false) {
+		}
 
-						\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
-						return false;
+		foreach (self::$_files as $k => $file) {
 
-					} else if ($file['hash'] !== $hashes[$file['path']]) {
+			if (array_key_exists($file['path'], $hashes) === false) {
 
-						\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
-						return false;
+				\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
+				return false;
 
-					} else {
+			} else if ($file['hash'] !== $hashes[$file['path']]) {
 
-						\Log::debug(basename($file['path']).' - OK!', 'Minify::validateCache()');
-						unset($hashes[$file['path']]);
-
-					}
-
-				}//end foreach
-
-				if (empty($hashes) === false) {
-
-					return false;
-
-				} else {
-					
-					return true;
-
-				}
+				\Log::debug(basename($file['path']).' - Fail!', 'Minify::validateCache()');
+				return false;
 
 			} else {
 
-				return false;
+				\Log::debug(basename($file['path']).' - OK!', 'Minify::validateCache()');
+				unset($hashes[$file['path']]);
 
-			}//end if
+			}
+
+		}//end foreach
+
+		if (empty($hashes) === false) {
+
+			return false;
+
+		} else {
+			
+			return true;
+
+		}
 
 	}
 
 	static protected function evaluate()
 	{
 
-		$file = self::$_outputDir.self::$_opt['cacheFile'];
+		try { \Cache::get('minify'); }
+		catch (\CacheNotFoundException $e) {
 
-		if (file_exists($file) === false) {
-
-			\Log::debug('Cache file doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
+			\Log::debug('Cache doesn\'t exist. Evaluation failed', 'Minify::evaluate()');
 			return false;
 
 		}
@@ -823,7 +818,7 @@ class Minify
 
 	}
 
-	static protected function saveCacheFile()
+	static protected function saveCache()
 	{
 
 		$cache = '';
@@ -834,7 +829,7 @@ class Minify
 
 		}
 
-		file_put_contents(self::$_outputDir.self::$_opt['cacheFile'], trim($cache));
+		\Cache::set('minify', trim($cache), 1209600);
 
 	}
 
