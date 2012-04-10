@@ -739,10 +739,10 @@ class Minify
 
 							} else if (isset($data['compiledCode']) === true) {
 								
-								$code = $data['compiledCode'];
+								$code = trim($data['compiledCode']);
 
 								self::$_mincode[$file['ext']] .= $code;
-								file_put_contents($cache, $code);
+								\Cache::set('minify.'.$hash, $code, 3600);
 
 							} else {
 
