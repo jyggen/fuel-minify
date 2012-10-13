@@ -126,6 +126,50 @@ class Minify
 
 		$links = '';
 
+		if (($which == 'both' || $which == 'css') && self::$_cssMode === true) {
+
+			if (self::$_opt['publicDir'] !== null) {
+
+				$file = self::$_opt['publicDir'].self::$_opt['minifyFile'].'.css';
+
+			} else {
+
+				$file = self::$_outputDir.self::$_opt['minifyFile'].'.css';
+
+			}
+
+			if(self::$_opt['useRewrite']) {
+
+				$ident = date('Ymd', filemtime($file));
+
+			} else {
+
+				$ident = hash_file(self::$_opt['algorithm'], $file);
+
+			}
+
+			if (self::$_opt['absolutePaths'] === true && substr($file, 0, 1) !== '/') {
+
+				$file = '/'.$file;
+
+			}
+
+			if(self::$_opt['useRewrite']) {
+
+				$ext  = pathinfo($file, PATHINFO_EXTENSION);
+				$file = substr($file, 0, -strlen($ext));
+				$file = $file.$ident.'.'.$ext;
+
+			} else {
+
+				$file = $file.'?'.$ident;
+
+			}
+
+			$links .= sprintf(self::$_opt['htmlCSS'], $file)."\n";
+
+		}
+
 		if (($which == 'both' || $which == 'js') && self::$_jsMode === true) {
 
 			if (self::$_opt['publicDir'] !== null) {
@@ -167,50 +211,6 @@ class Minify
 			}
 
 			$links .= sprintf(self::$_opt['htmlJS'], $file)."\n";
-
-		}
-
-		if (($which == 'both' || $which == 'css') && self::$_cssMode === true) {
-
-			if (self::$_opt['publicDir'] !== null) {
-
-				$file = self::$_opt['publicDir'].self::$_opt['minifyFile'].'.css';
-
-			} else {
-
-				$file = self::$_outputDir.self::$_opt['minifyFile'].'.css';
-
-			}
-
-			if(self::$_opt['useRewrite']) {
-
-				$ident = date('Ymd', filemtime($file));
-
-			} else {
-
-				$ident = hash_file(self::$_opt['algorithm'], $file);
-
-			}
-
-			if (self::$_opt['absolutePaths'] === true && substr($file, 0, 1) !== '/') {
-
-				$file = '/'.$file;
-
-			}
-			
-			if(self::$_opt['useRewrite']) {
-				
-				$ext  = pathinfo($file, PATHINFO_EXTENSION);
-				$file = substr($file, 0, -strlen($ext));
-				$file = $file.$ident.'.'.$ext;
-			
-			} else {
-			
-				$file = $file.'?'.$ident;
-			
-			}
-
-			$links .= sprintf(self::$_opt['htmlCSS'], $file)."\n";
 
 		}
 
