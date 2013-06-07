@@ -600,7 +600,7 @@ class Minify
 
 		}//end foreach
 
-		return ($hashes);
+		return empty($hashes);
 	}
 
 	static protected function evaluate()
