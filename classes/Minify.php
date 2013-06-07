@@ -572,6 +572,7 @@ class Minify
 
 		}
 
+		$hashes = array();
 		foreach($cache as $file) {
 
 			$hashes[$file['path']] = $file['hash'];
