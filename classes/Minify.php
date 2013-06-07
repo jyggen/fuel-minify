@@ -600,16 +600,7 @@ class Minify
 
 		}//end foreach
 
-		if (empty($hashes) === false) {
-
-			return false;
-
-		} else {
-			
-			return true;
-
-		}
-
+		return ($hashes);
 	}
 
 	static protected function evaluate()
