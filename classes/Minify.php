@@ -471,7 +471,7 @@ class Minify
 
 					} else {
 
-						unset(self::$_file[$k]);
+						unset(self::$_files[$k]);
 						\Log::error(basename($file['path']).' is an invalid file', 'Minify::validateFiles()');
 
 					}
